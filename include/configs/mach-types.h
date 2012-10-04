@@ -3258,9 +3258,6 @@ extern unsigned int __machine_arch_type;
 #define MACH_TYPE_MX6Q_SABRELITE       3769
 #define MACH_TYPE_MX6Q_ARM2            3837
 #define MACH_TYPE_MX6Q_SABRESD	       3980
-#define MACH_TYPE_MX6SL_ARM2           4091
-#define MACH_TYPE_MX6Q_HDMIDONGLE      4284
-#define MACH_TYPE_MX6SL_EVK            4307
 #define MACH_TYPE_BCTRM3			   4332
 
 #ifdef CONFIG_ARCH_EBSA110
@@ -42201,18 +42198,6 @@ extern unsigned int __machine_arch_type;
 # define machine_is_mx6q_sabresd() (machine_arch_type == MACH_TYPE_MX6Q_SABRESD)
 #else
 # define machine_is_mx6q_sabresd()	(0)
-#endif
-
-#ifdef CONFIG_MACH_MX6SL_EVK
-# ifdef machine_arch_type
-#  undef machine_arch_type
-#  define machine_arch_type	__machine_arch_type
-# else
-#  define machine_arch_type	MACH_TYPE_MX6SL_EVK
-# endif
-# define machine_is_mx6sl_evk() (machine_arch_type == MACH_TYPE_MX6SL_EVK)
-#else
-# define machine_is_mx6sl_evk()	(0)
 #endif
 
 /*

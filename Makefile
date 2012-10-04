@@ -3323,6 +3323,15 @@ mx6q_arm2_iram_config	: unconfig
 		}
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_arm2 freescale mx6
 
+bctrm3_mfg_config \
+bctrm3_config	: unconfig
+	@[ -z "$(findstring iram_,$@)" ] || \
+		{ echo "TEXT_BASE = 0x00907000" >$(obj)board/freescale/bctrm3/config.tmp ; \
+		  echo "... with iram configuration" ; \
+		}
+	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 bctrm3 freescale mx6
+
+
 mx6solo_sabresd_config			\
 mx6solo_sabresd_mfg_config		\
 mx6dl_sabresd_config			\

@@ -248,6 +248,8 @@ static int dnet_phy_init(struct dnet_device *dnet)
 	int i;
 	u32 ctl_reg;
 
+	printf("dnet_phy_init\n");
+
 	/* Find a PHY */
 	for (i = 0; i < 32; i++) {
 		dnet->phy_addr = i;

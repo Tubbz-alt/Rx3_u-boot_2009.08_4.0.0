@@ -229,7 +229,11 @@ static void mxc_get_phy_ouid(char *devname, int phy_addr)
 
 	fec_phy_ouid = PHY_MICREL_OUID_GET(value2, value1);
 	if (phy_is_ksz9021())
+	{
+		printf("Phy is ksz9021\n");
 		return;
+	}
+		
 
 	fec_phy_ouid = 0xFFFFFFFF;
 }
@@ -427,6 +431,8 @@ static void setFecDuplexSpeed(volatile fec_t *fecp, unsigned char addr,
 					dup_spd |= (HALF << 16);
 			}
 		} else if (phy_is_ksz9021()) { /* for Micrel phy */
+
+			printf("Phy is ksz9021-2\n");
 			ret = __fec_mii_read(fecp, addr, 0x1f, &val);
 			if (ret)
 				dup_spd = _100BASET | (FULL << 16);
