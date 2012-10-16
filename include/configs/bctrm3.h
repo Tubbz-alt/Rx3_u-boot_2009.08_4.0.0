@@ -128,7 +128,7 @@
 		"bootcmd_net=run bootargs_base bootargs_nfs; "		\
 			"tftpboot ${loadaddr} ${kernel}; bootm\0"	\
 		"bootargs_mmc=setenv bootargs ${bootargs} "     \
-			"root=/dev/mmcblk0p2 rootwait\0"                \
+			"root=/dev/mmcblk0p2 rootwait ip=dhcp\0"         \
 		"bootcmd_mmc=run bootargs_base bootargs_mmc; "   \
 		"mmc rescan; "	\
 		"fatload mmc 0:1 ${loadaddr} uImage; bootm\0"	\
