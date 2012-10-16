@@ -120,8 +120,9 @@
 		"ethprime=FEC0\0"					\
 		"uboot=u-boot.bin\0"			\
 		"kernel=uImage\0"				\
+		"tfp410setup=i2c mw 56 09 01 ; i2c mw 38 08 35\0"\
 		"nfsroot=/nfs/target\0"				\
-		"bootargs_base=setenv bootargs console=ttymxc0,115200\0"\
+		"bootargs_base=run tfp410setup ; setenv bootargs console=ttymxc0,115200\0"\
 		"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs "\
 			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0"\
 		"bootcmd_net=run bootargs_base bootargs_nfs; "		\
