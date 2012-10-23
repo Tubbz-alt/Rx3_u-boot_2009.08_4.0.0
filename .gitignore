@@ -5,14 +5,12 @@
 #
 # Normal rules
 #
-
 *.rej
-*.orig
-*.a
 *.o
-*~
-*.swp
+*.a
 *.patch
+*.orig
+*~
 *.swp
 
 #
@@ -54,6 +52,7 @@ series
 
 # cscope files
 cscope.*
+ncscope.*
 
 # tags files
 /tags
@@ -65,3 +64,7 @@ cscope.*
 /onenand_ipl/onenand-ipl*
 /onenand_ipl/board/*/onenand*
 /onenand_ipl/board/*/*.S
+
+# KDevelop files
+*.kdev4
+/.kdev*
