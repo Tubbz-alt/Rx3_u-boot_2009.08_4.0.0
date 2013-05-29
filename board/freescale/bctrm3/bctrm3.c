@@ -854,6 +854,13 @@ static int phy_write(char *devname, unsigned char addr, unsigned char reg,
 	return ret;
 }
 
+void phy_write_mmd(char *devname, unsigned char addr, unsigned char reg, short unsigned int value)
+{
+	phy_write(devname, addr, 0x0d, 0x0002);     // set ID = 0x02
+	phy_write(devname, addr, 0x0e, reg);        // set register
+	phy_write(devname, addr, 0x0d, 0x4002);     // write without post increment
+	phy_write(devname, addr, 0x0e, value);      // write data
+}
 
 int mx6_rgmii_rework(char *devname, int phy_addr)
 {
@@ -869,16 +876,12 @@ int mx6_rgmii_rework(char *devname, int phy_addr)
 	phy_write(devname, phy_addr, 0x9, 0x1F00);
 #endif
 
-	phy_write(devname, phy_addr, 0x0d, 0x0002); //set ID = 0x02
-	phy_write(devname, phy_addr, 0x0e, 0x4); //set register 4
-	phy_write(devname, phy_addr, 0x0d, 0x8002); //
-	phy_write(devname, phy_addr, 0x0e, 0x0000); //
-
-	phy_write(devname, phy_addr, 0x0d, 0x0002); //set ID = 0x02
-	phy_write(devname, phy_addr, 0x0e, 0x8); //set register 8
-	phy_write(devname, phy_addr, 0x0d, 0x8002); //
-	phy_write(devname, phy_addr, 0x0e, 0x03FF); //
-
+	// Use defaults for RX, max delay for TX (i.e. delay TX_CLK as much as possible, TXD as little as possible)
+	phy_write_mmd(devname, phy_addr, 0x4, 0x0070);		// RX_CTL[7:4], TX_CTL[3:0]
+	phy_write_mmd(devname, phy_addr, 0x5, 0x7777);		// RXDn
+	phy_write_mmd(devname, phy_addr, 0x6, 0x0000);		// TXDn
+	phy_write_mmd(devname, phy_addr, 0x8, 0x03EF);		// TX_CLK[9:5], RX_CLK[4:0]
+ 
 	return 0;
 }
 
