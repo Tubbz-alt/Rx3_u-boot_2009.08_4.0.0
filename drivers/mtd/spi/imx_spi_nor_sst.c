@@ -40,6 +40,7 @@ static u8 g_rx_buf[256];
 
 struct imx_spi_flash_params {
 	u8		idcode1;
+	u8		idcode2;
 	u32		block_size;
 	u32		block_count;
 	u32		device_size;
@@ -60,10 +61,19 @@ to_imx_spi_flash(struct spi_flash *flash)
 static const struct imx_spi_flash_params imx_spi_flash_table[] = {
 	{
 		.idcode1		= 0x25,
+		.idcode2		= 0x41,
 		.block_size		= SZ_64K,
 		.block_count		= 32,
 		.device_size		= SZ_64K * 32,
 		.name			= "SST25VF016B - 2MB",
+	},
+	{
+		.idcode1		= 0x25,
+		.idcode2		= 0x8e,
+		.block_size		= SZ_64K,
+		.block_count	= 16,
+		.device_size	= SZ_64K * 16,
+		.name			= "SST25VF080B - 1MB",
 	},
 };
 
@@ -505,7 +515,7 @@ struct spi_flash *spi_flash_probe(unsigned int bus, unsigned int cs, unsigned in
 
 	for (i = 0; i < ARRAY_SIZE(imx_spi_flash_table); ++i) {
 		params = &imx_spi_flash_table[i];
-		if (params->idcode1 == idcode[1])
+		if (params->idcode1 == idcode[1] && params->idcode2 == idcode[2])
 			break;
 	}
 

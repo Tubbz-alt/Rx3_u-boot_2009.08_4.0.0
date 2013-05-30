@@ -371,6 +371,23 @@ s32 spi_get_cfg(struct imx_spi_dev_t *dev)
 
 void spi_io_init(struct imx_spi_dev_t *dev)
 {
+	switch (dev->base) {
+	case ECSPI1_BASE_ADDR:
+		/* SCLK */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D16__ECSPI1_SCLK);
+
+		/* MISO */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D17__ECSPI1_MISO);
+
+		/* MOSI */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D18__ECSPI1_MOSI);
+
+		if (dev->ss == 1)
+			mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D19__ECSPI1_SS1);
+		break;
+	default:
+		break;
+	}
 }
 #endif
 
@@ -969,8 +986,6 @@ int checkboard(void)
 		printf("unknown");
 	}
 	printf(" ]\n");
-
-	printf("Boot Device: NAND");
 
 #ifdef CONFIG_SECURE_BOOT
 	if (check_hab_enable() == 1)

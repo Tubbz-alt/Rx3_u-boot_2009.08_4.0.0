@@ -204,7 +204,7 @@
  */
 #ifdef CONFIG_CMD_SF
 	#define CONFIG_FSL_SF		1
-	#define CONFIG_SPI_FLASH_IMX_M25PXX	1
+	#define CONFIG_SPI_FLASH_IMX_SST	1
 	#define CONFIG_SPI_FLASH_CS	1
 	#define CONFIG_IMX_ECSPI
 	#define IMX_CSPI_VER_2_3	1
@@ -303,7 +303,8 @@
 
 /* Monitor at beginning of flash */
 /* #define CONFIG_FSL_ENV_IN_MMC */
-#define CONFIG_FSL_ENV_IN_NAND
+/* #define CONFIG_FSL_ENV_IN_NAND */
+#define CONFIG_FSL_ENV_IN_SF
 /* #define CONFIG_FSL_ENV_IN_SATA */
 
 #define CONFIG_ENV_SECT_SIZE    (8 * 1024)
