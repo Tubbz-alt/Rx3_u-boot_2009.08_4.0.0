@@ -969,7 +969,7 @@ void enet_board_init(void)
 
 int checkboard(void)
 {
-	printf("Board: BCTRM2 :[ ");
+	printf("Board: BCTRM3 :[ ");
 
 	switch (__REG(SRC_BASE_ADDR + 0x8)) {
 	case 0x0001:
