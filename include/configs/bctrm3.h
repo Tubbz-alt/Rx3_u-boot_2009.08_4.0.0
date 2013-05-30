@@ -120,7 +120,7 @@
 		"ethprime=FEC0\0"					\
 		"uboot=u-boot.bin\0"			\
 		"kernel=uImage\0"				\
-		"tfp410setup=i2c mw 56 09 01 ; i2c mw 38 08 35\0"\
+		"tfp410setup=i2c mw 56 09 01 ; i2c mw 38 08 37\0"\
 		"nfsroot=/nfs/target\0"				\
 		"video_args=mxcfb0:dev=lcd,MI0800FT\0"	\
 		"bootargs_base=run tfp410setup ; setenv bootargs console=ttymxc0,115200 video=${video_args} \0"\
