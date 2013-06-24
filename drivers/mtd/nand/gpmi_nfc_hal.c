@@ -137,6 +137,11 @@ static int gpmi_reset_block(void __iomem *reset_addr, int just_enable)
 
 error:
 	printf("%s(%p): module reset timeout\n", __func__, reset_addr);
+
+	// Can't proceed, so reset and try again
+	do_reset(NULL, 0, 0, NULL);
+	
+	/*NOTREACHED*/
 	return -ETIMEDOUT;
 }
 
