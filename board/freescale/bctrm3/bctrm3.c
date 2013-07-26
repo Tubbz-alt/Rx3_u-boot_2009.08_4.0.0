@@ -66,7 +66,6 @@
 DECLARE_GLOBAL_DATA_PTR;
 
 static u32 system_rev;
-static enum boot_device boot_dev;
 
 static void set_gpio_output_val(unsigned base, unsigned mask, unsigned val)
 {
@@ -411,7 +410,7 @@ iomux_v3_cfg_t nfc_pads[] = {
 	MX6Q_PAD_NANDF_D7__RAWNAND_D7
 };
 
-int setup_gpmi_nand(void)
+void setup_gpmi_nand(void)
 {
 	unsigned int reg;
 
@@ -491,7 +490,6 @@ iomux_v3_cfg_t usdhc3_pads[] = {
 int usdhc_gpio_init(bd_t *bis)
 {
 	s32 status = 0;
-	u32 index = 0;
 
 	mxc_iomux_v3_setup_multiple_pads(usdhc1_pads,
 				ARRAY_SIZE(usdhc1_pads));
@@ -633,8 +631,6 @@ void setup_splash_image(void)
 
 int board_init(void)
 {
-	u32 reg = 0;
-
 	mxc_iomux_v3_init((void *)IOMUXC_BASE_ADDR);
 
 	/* board id for linux */
@@ -849,16 +845,6 @@ uint32_t authenticate_image(ulong start)
 }
 /* ----------- end of HAB API updates ------------*/
 #endif
-
-static int phy_read(char *devname, unsigned char addr, unsigned char reg,
-		    unsigned short *pdata)
-{
-	int ret = miiphy_read(devname, addr, reg, pdata);
-	if (ret)
-		printf("Error reading from %s PHY addr=%02x reg=%02x\n",
-		       devname, addr, reg);
-	return ret;
-}
 
 static int phy_write(char *devname, unsigned char addr, unsigned char reg,
 		     unsigned short value)
