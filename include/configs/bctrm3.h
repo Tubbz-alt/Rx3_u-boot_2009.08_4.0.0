@@ -211,6 +211,8 @@
 	#define MAX_SPI_BYTES		(64 * 4)
 #endif
 
+#define CONFIG_DEFAULT_SPI_BUS 4	// Use ECSPI5 for SSPI command
+
 /* Regulator Configs */
 #ifdef CONFIG_CMD_REGUL
 	#define CONFIG_ANATOP_REGULATOR

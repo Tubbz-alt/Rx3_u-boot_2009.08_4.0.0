@@ -342,27 +342,42 @@ void setup_lvds_poweron(void)
 #ifdef CONFIG_IMX_ECSPI
 s32 spi_get_cfg(struct imx_spi_dev_t *dev)
 {
-	switch (dev->slave.cs) {
-	case 0:
-		/* SPI-NOR */
-		dev->base = ECSPI1_BASE_ADDR;
-		dev->freq = 25000000;
-		dev->ss_pol = IMX_SPI_ACTIVE_LOW;
-		dev->ss = 0;
-		dev->fifo_sz = 64 * 4;
-		dev->us_delay = 0;
-		break;
-	case 1:
-		/* SPI-NOR */
+	if (dev->slave.bus == 0 && dev->slave.cs == 1)
+	{
+		// SPI NOR Flash on ECSPI1, SS1
 		dev->base = ECSPI1_BASE_ADDR;
 		dev->freq = 25000000;
 		dev->ss_pol = IMX_SPI_ACTIVE_LOW;
 		dev->ss = 1;
 		dev->fifo_sz = 64 * 4;
 		dev->us_delay = 0;
-		break;
-	default:
-		printf("Invalid Bus ID!\n");
+	}
+	else if (dev->slave.bus == 4 && dev->slave.cs == 1)
+	{
+		// Host Board peripheral on SPI_CSA (ECSPI5, SS1)
+		dev->base = ECSPI5_BASE_ADDR;
+		dev->freq = 187500;
+		dev->ss_pol = IMX_SPI_ACTIVE_LOW;
+		dev->ss = 1;
+		dev->fifo_sz = 64 * 4;
+		dev->us_delay = 0;
+	}
+	else if (dev->slave.bus == 4 && dev->slave.cs == 3)
+	{
+		// Host Board peripheral on SPI_CSB (ECSPI5, SS3)
+		dev->base = ECSPI5_BASE_ADDR;
+		dev->freq = 25000000;
+		dev->ss_pol = IMX_SPI_ACTIVE_LOW;
+		dev->sclkpol = 0;
+		dev->sclkpha = 1;
+		dev->ss = 3;
+		dev->fifo_sz = 64 * 4;
+		dev->us_delay = 0;
+	}
+	else
+	{
+		printf("No device configured for ECSPI%d, SS%d (see %s, %s)\n", 
+			   dev->slave.bus+1, dev->slave.cs, __FILE__, __FUNCTION__);
 	}
 
 	return 0;
@@ -382,11 +397,38 @@ void spi_io_init(struct imx_spi_dev_t *dev)
 		mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D18__ECSPI1_MOSI);
 
 		if (dev->ss == 1)
+		{
 			mxc_iomux_v3_setup_pad(MX6Q_PAD_EIM_D19__ECSPI1_SS1);
+			return;
+		}
 		break;
-	default:
+
+	case ECSPI5_BASE_ADDR:
+		/* SCLK */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_SD2_CLK__ECSPI5_SCLK);
+
+		/* MISO */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_SD2_DAT0__ECSPI5_MISO);
+
+		/* MOSI */
+		mxc_iomux_v3_setup_pad(MX6Q_PAD_SD2_CMD__ECSPI5_MOSI);
+
+		switch (dev->ss)
+		{
+			case 1 : /* SS1 = SPI_CSA*/
+				mxc_iomux_v3_setup_pad(MX6Q_PAD_SD2_DAT2__ECSPI5_SS1);
+				return;
+
+			case 3: /* SS3 = SPI_CSB */
+				mxc_iomux_v3_setup_pad(MX6Q_PAD_SD2_DAT3__ECSPI5_SS3);
+				return;
+		}
 		break;
 	}
+
+	// If we get here, the I/O has not been configured 
+	printf("No I/O configured for ECSPI%d, SS%d (see %s, %s)\n", 
+			dev->slave.bus+1, dev->slave.cs, __FILE__, __FUNCTION__);
 }
 #endif
 
