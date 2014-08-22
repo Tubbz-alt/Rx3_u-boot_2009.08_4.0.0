@@ -995,6 +995,15 @@ void enet_board_init(void)
 
 }
 
+static void report_boot_mode(void)
+{
+	int boot_mode;
+	char *boot_mode_names[] = { "Fuses", "USB", "Unknown", "Unknown" };
+	
+	boot_mode = ((__REG(SRC_BASE_ADDR + 0x1c)) >> 24) & 0x03;
+	printf("Boot mode: %s (%d)\n", boot_mode_names[boot_mode], boot_mode);
+}
+
 int checkboard(void)
 {
 	printf("Board: BCTRM3 :[ ");
@@ -1014,6 +1023,7 @@ int checkboard(void)
 		printf("unknown");
 	}
 	printf(" ]\n");
+	report_boot_mode();
 
 #ifdef CONFIG_SECURE_BOOT
 	if (check_hab_enable() == 1)
