@@ -3263,6 +3263,7 @@ extern unsigned int __machine_arch_type;
 #define MACH_TYPE_MX6SL_EVK            4307
 #define MACH_TYPE_BCTRM3			   4332
 #define MACH_TYPE_BCTRE3			   4480
+#define MACH_TYPE_BCTRM3S              4948
 
 #ifdef CONFIG_ARCH_EBSA110
 # ifdef machine_arch_type
