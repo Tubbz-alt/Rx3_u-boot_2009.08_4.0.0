@@ -207,7 +207,7 @@ MXC_DCD_ITEM(93, MMDC_P0_BASE_ADDR + 0x01c, 0x04008048)	// Repeat for CS1
 
 //######################################################
 //final DDR setup, before operation start:
-MXC_DCD_ITEM(94, MMDC_P0_BASE_ADDR + 0x020, 0x00005800) // MMDC0_MDREF, enable auto refresh, set refresh rate.
+MXC_DCD_ITEM(94, MMDC_P0_BASE_ADDR + 0x020, 0x00007800) // MMDC0_MDREF, enable auto refresh, set refresh rate 3.9us
 MXC_DCD_ITEM(95, MMDC_P0_BASE_ADDR + 0x818, 0x00022227) // DDR_PHY_P0_MPODTCTRL, ODT enable
 MXC_DCD_ITEM(96, MMDC_P1_BASE_ADDR + 0x818, 0x00022227) // DDR_PHY_P1_MPODTCTRL
 
