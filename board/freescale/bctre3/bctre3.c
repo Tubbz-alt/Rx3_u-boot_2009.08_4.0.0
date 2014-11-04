@@ -685,14 +685,10 @@ int board_init(void)
 	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_4__GPIO_1_4); //DPR Debug - setup GPIO1 as gpio
 	set_gpio_output_val(GPIO1_BASE_ADDR, (1 << 4), 0);
 
-	//Enable local Audio for now
-	mxc_iomux_v3_setup_pad(MX6Q_PAD_SD4_DAT6__GPIO_2_14);
-	set_gpio_output_val(GPIO2_BASE_ADDR, (1 << 14), 0);
-
 	//Turn OFF LCD and Backlight
-	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_18__GPIO_7_13);
+	mxc_iomux_v3_setup_pad(MX6Q_PAD_DI0_PIN4__GPIO_4_20);	// EN_PANL
 	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_3__GPIO_1_3);
-	set_gpio_output_val(GPIO7_BASE_ADDR, (1 << 13), 0);
+	set_gpio_output_val(GPIO4_BASE_ADDR, (1 << 20), 0);
 	set_gpio_output_val(GPIO1_BASE_ADDR, (1 << 3), 0);
 
 	setup_uart();
