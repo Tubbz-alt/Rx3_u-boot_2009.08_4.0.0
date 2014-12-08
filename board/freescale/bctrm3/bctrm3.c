@@ -274,9 +274,9 @@ static void setup_uart(void)
 
 
 	/* UART2 TXD */
-	mxc_iomux_v3_setup_pad(_MX6Q_PAD_GPIO_7__UART2_TXD); //CON_UART2_TX
+	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_7__UART2_TXD); //CON_UART2_TX
 	/* UART2 RXD */
-	mxc_iomux_v3_setup_pad(_MX6Q_PAD_GPIO_8__UART2_RXD); //CON_UART2_RX
+	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_8__UART2_RXD); //CON_UART2_RX
 }
 
 #ifdef CONFIG_I2C_MXC
@@ -671,6 +671,8 @@ void setup_splash_image(void)
 }
 #endif
 
+#define DRIVE_GPIO(name, bank, bit, val) {mxc_iomux_v3_setup_pad(MX6Q_PAD_##name##__GPIO_##bank##_##bit); set_gpio_output_val(GPIO##bank##_BASE_ADDR, (1 << bit), val);}
+
 int board_init(void)
 {
 	mxc_iomux_v3_init((void *)IOMUXC_BASE_ADDR);
@@ -690,6 +692,36 @@ int board_init(void)
 	mxc_iomux_v3_setup_pad(MX6Q_PAD_GPIO_3__GPIO_1_3);
 	set_gpio_output_val(GPIO4_BASE_ADDR, (1 << 20), 0);
 	set_gpio_output_val(GPIO1_BASE_ADDR, (1 << 3), 0);
+
+	// Turn off all LCD data and control lines (i.e. drive them low as GPIOs)
+	DRIVE_GPIO(DI0_DISP_CLK, 4, 16, 0)  // LCD_PCLK
+	DRIVE_GPIO(DI0_PIN2,     4, 18, 0)  // LCD_HSYNC
+	DRIVE_GPIO(DI0_PIN3,     4, 19, 0)  // LCD_VSYNC
+	DRIVE_GPIO(DI0_PIN15,    4, 17, 0)  // LCD_ACBIAS
+	DRIVE_GPIO(DISP0_DAT0,   4, 21, 0)  // LCD_D0
+	DRIVE_GPIO(DISP0_DAT1,   4, 22, 0)  // LCD_D1
+	DRIVE_GPIO(DISP0_DAT2,   4, 23, 0)  // LCD_D2
+	DRIVE_GPIO(DISP0_DAT3,   4, 24, 0)  // LCD_D3
+	DRIVE_GPIO(DISP0_DAT4,   4, 25, 0)  // LCD_D4
+	DRIVE_GPIO(DISP0_DAT5,   4, 26, 0)  // LCD_D5
+	DRIVE_GPIO(DISP0_DAT6,   4, 27, 0)  // LCD_D6
+	DRIVE_GPIO(DISP0_DAT7,   4, 28, 0)  // LCD_D7
+	DRIVE_GPIO(DISP0_DAT8,   4, 29, 0)  // LCD_D8
+	DRIVE_GPIO(DISP0_DAT9,   4, 30, 0)  // LCD_D9
+	DRIVE_GPIO(DISP0_DAT10,  4, 31, 0)  // LCD_D10
+	DRIVE_GPIO(DISP0_DAT11,  5,  5, 0)  // LCD_D11
+	DRIVE_GPIO(DISP0_DAT12,  5,  6, 0)  // LCD_D12
+	DRIVE_GPIO(DISP0_DAT13,  5,  7, 0)  // LCD_D13
+	DRIVE_GPIO(DISP0_DAT14,  5,  8, 0)  // LCD_D14
+	DRIVE_GPIO(DISP0_DAT15,  5,  9, 0)  // LCD_D15
+	DRIVE_GPIO(DISP0_DAT16,  5, 10, 0)  // LCD_D16
+	DRIVE_GPIO(DISP0_DAT17,  5, 11, 0)  // LCD_D17
+	DRIVE_GPIO(DISP0_DAT18,  5, 12, 0)  // LCD_D18
+	DRIVE_GPIO(DISP0_DAT19,  5, 13, 0)  // LCD_D19
+	DRIVE_GPIO(DISP0_DAT20,  5, 14, 0)  // LCD_D20
+	DRIVE_GPIO(DISP0_DAT21,  5, 15, 0)  // LCD_D21
+	DRIVE_GPIO(DISP0_DAT22,  5, 16, 0)  // LCD_D22
+	DRIVE_GPIO(DISP0_DAT23,  5, 17, 0)  // LCD_D23
 
 	setup_uart();
 
