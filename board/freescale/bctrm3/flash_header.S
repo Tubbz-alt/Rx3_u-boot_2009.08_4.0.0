@@ -57,8 +57,8 @@ boot_data:        .word TEXT_BASE
 image_len:        .word _end_of_copy  - TEXT_BASE + CONFIG_FLASH_HEADER_OFFSET
 plugin:           .word 0x0
 
-dcd_hdr:          .word 0x404003D2 /* Tag=0xD2, Len=93*8 + 4 + 4, Ver=0x40 */
-write_dcd_cmd:    .word 0x043C03CC /* Tag=0xCC, Len=93*8 + 4, Param=0x04 */
+dcd_hdr:          .word 0x401003D2 /* Tag=0xD2, Len=93*8 + 4 + 4, Ver=0x40 */
+write_dcd_cmd:    .word 0x040C03CC /* Tag=0xCC, Len=93*8 + 4, Param=0x04 */
 
 /* DCD */
 MXC_DCD_ITEM(1, 0x020c4068, 0xffffffff)		// CCM_CCGR0
@@ -128,32 +128,31 @@ MXC_DCD_ITEM(48, IOMUXC_BASE_ADDR + 0x5c4, 0x00000030) // IOMUXC_SW_PAD_CTL_PAD_
 //######################################################
 // ZQ:
 MXC_DCD_ITEM(49, MMDC_P0_BASE_ADDR + 0x800, 0xA1390003) // DDR_PHY_P0_MPZQHWCTRL, enable both one-time & periodic HW ZQ calibration.
-MXC_DCD_ITEM(50, MMDC_P1_BASE_ADDR + 0x800, 0xA1390003) // DDR_PHY_P0_MPZQHWCTRL
 
 // write leveling
-MXC_DCD_ITEM(51, MMDC_P0_BASE_ADDR + 0x80c, 0x001F001F)
-MXC_DCD_ITEM(52, MMDC_P0_BASE_ADDR + 0x810, 0x001F001F)
+MXC_DCD_ITEM(51, MMDC_P0_BASE_ADDR + 0x80c, 0x002A002C)
+MXC_DCD_ITEM(52, MMDC_P0_BASE_ADDR + 0x810, 0x004A0041)
 
-MXC_DCD_ITEM(53, MMDC_P1_BASE_ADDR + 0x80c, 0x00440044)
-MXC_DCD_ITEM(54, MMDC_P1_BASE_ADDR + 0x810, 0x00440044)
+MXC_DCD_ITEM(53, MMDC_P1_BASE_ADDR + 0x80c, 0x003B0054)
+MXC_DCD_ITEM(54, MMDC_P1_BASE_ADDR + 0x810, 0x00520058)
 
 //DQS gating, read delay, write delay calibration values based on calibration compare of 0x00ffff00:
 // It is highly recommended for the user to run calibration code on her/his specific board 
 //and replace following delay values accordingly: 
 
 //Read DQS Gating calibration
-MXC_DCD_ITEM(55, MMDC_P0_BASE_ADDR + 0x83c, 0x4333033F)
-MXC_DCD_ITEM(56, MMDC_P0_BASE_ADDR + 0x840, 0x0339033E)
-MXC_DCD_ITEM(57, MMDC_P1_BASE_ADDR + 0x83c, 0x433F0343)
-MXC_DCD_ITEM(58, MMDC_P1_BASE_ADDR + 0x840, 0x03490320)
+MXC_DCD_ITEM(55, MMDC_P0_BASE_ADDR + 0x83c, 0x43440354)
+MXC_DCD_ITEM(56, MMDC_P0_BASE_ADDR + 0x840, 0x0354034C)
+MXC_DCD_ITEM(57, MMDC_P1_BASE_ADDR + 0x83c, 0x43600368)
+MXC_DCD_ITEM(58, MMDC_P1_BASE_ADDR + 0x840, 0x03640338)
 
 //Read calibration
-MXC_DCD_ITEM(59, MMDC_P0_BASE_ADDR + 0x848, 0x42363838)
-MXC_DCD_ITEM(60, MMDC_P1_BASE_ADDR + 0x848, 0x3F343242)
+MXC_DCD_ITEM(59, MMDC_P0_BASE_ADDR + 0x848, 0x46343A3C)
+MXC_DCD_ITEM(60, MMDC_P1_BASE_ADDR + 0x848, 0x3E3A3242)
 
 //Write calibration
-MXC_DCD_ITEM(61, MMDC_P0_BASE_ADDR + 0x850, 0x37424844)
-MXC_DCD_ITEM(62, MMDC_P1_BASE_ADDR + 0x850, 0x48264731)
+MXC_DCD_ITEM(61, MMDC_P0_BASE_ADDR + 0x850, 0x403E4844)
+MXC_DCD_ITEM(62, MMDC_P1_BASE_ADDR + 0x850, 0x4234463A)
 
 //read data bit delay: (3 is the reccommended default value, although out of reset value is 0):
 MXC_DCD_ITEM(63, MMDC_P0_BASE_ADDR + 0x81c, 0x33333333) // DDR_PHY_P0_MPREDQBY0DL3
@@ -180,7 +179,7 @@ MXC_DCD_ITEM(74, MMDC_P0_BASE_ADDR + 0x008, 0x09444040) // MMDC0_MDOTC see sprea
 MXC_DCD_ITEM(75, MMDC_P0_BASE_ADDR + 0x00c, 0x555A7975) // MMDC0_MDCFG0 see spread sheet for timings. CL=8
 MXC_DCD_ITEM(76, MMDC_P0_BASE_ADDR + 0x010, 0xFF538F64) // MMDC0_MDCFG1 see spread sheet for timings
 MXC_DCD_ITEM(77, MMDC_P0_BASE_ADDR + 0x014, 0x01ff00db) // MMDC0_MDCFG2 - tRRD - 4ck; tWTR - 4ck; tRTP - 4ck; tDLLK - 512ck
-MXC_DCD_ITEM(78, MMDC_P0_BASE_ADDR + 0x018, 0x00081740) // MMDC0_MDMISC, RALAT=0x5
+MXC_DCD_ITEM(78, MMDC_P0_BASE_ADDR + 0x018, 0x00091740) // MMDC0_MDMISC, RALAT=0x5, WALAT=0x1
 MXC_DCD_ITEM(79, MMDC_P0_BASE_ADDR + 0x01c, 0x00008000) // MMDC0_MDSCR
 MXC_DCD_ITEM(80, MMDC_P0_BASE_ADDR + 0x02c, 0x000026D2) //MMDC0_MDRWD
 MXC_DCD_ITEM(81, MMDC_P0_BASE_ADDR + 0x030, 0x005B0E21) // MMDC0_MDOR - tXPR - 92ck; SDE_to_RST - 13ck; RST_to_CKE - 32ck
@@ -191,19 +190,14 @@ MXC_DCD_ITEM(83, MMDC_P0_BASE_ADDR + 0x000, 0x831a0000) // MMDC0_MDCTL - row - 1
 // Initialize 2GB DDR3 - Micron MT41J128M 
 //MR2:
 MXC_DCD_ITEM(84, MMDC_P0_BASE_ADDR + 0x01c, 0x04088032)	// Bank2, CS0, LoadMR, CAS Write Latency=6CK, ODT=120R)
-MXC_DCD_ITEM(85, MMDC_P0_BASE_ADDR + 0x01c, 0x0408803A)	// Repeat for CS1
 //MR3:
 MXC_DCD_ITEM(86, MMDC_P0_BASE_ADDR + 0x01c, 0x00008033)	// Bank3, CS0, LoadMR, Normal DRAM operation
-MXC_DCD_ITEM(87, MMDC_P0_BASE_ADDR + 0x01c, 0x0000803B)	// Repeat for CS1
 //MR1:
 MXC_DCD_ITEM(88, MMDC_P0_BASE_ADDR + 0x01c, 0x00048031)	// Bank1, CS0, LoadMR, Drive=40R, ODT=60R
-MXC_DCD_ITEM(89, MMDC_P0_BASE_ADDR + 0x01c, 0x00048039)	// Repeat for CS1
 //MR0:
 MXC_DCD_ITEM(90, MMDC_P0_BASE_ADDR + 0x01c, 0x09408030)	// Bank0, CS0, LoadMR, Write Recovery=8, CAS Latency=8, DLL Reset=Y
-MXC_DCD_ITEM(91, MMDC_P0_BASE_ADDR + 0x01c, 0x09408038)	// Repeat for CS1
 //DDR device ZQ calibration:
 MXC_DCD_ITEM(92, MMDC_P0_BASE_ADDR + 0x01c, 0x04008040)	// Bank0, CS0, ZQCal, ZQCL
-MXC_DCD_ITEM(93, MMDC_P0_BASE_ADDR + 0x01c, 0x04008048)	// Repeat for CS1
 
 //######################################################
 //final DDR setup, before operation start:
